@@ -7,7 +7,7 @@ This repository contains the files necessary for the Mathefy app.
 The Mathefy program is an app that allows young kidos learning addition, subtraction, multiplication and division to
 practice their maths skills.
 Upon launch, the app displays a welcome screen.
-Clicking the get started button brings you to a separate screen with options a text entry area, and a check answer.
+Clicking the get started button brings you to a separate screen with options, a text entry area, and a check answer button.
 Sounds play if the anser is correct or not.
 Note: You can not move on to multiplication or division unless progress is above or equal to 80.
 If your answer is incorrect or correct the progress area will decrease/increase by 5;
