@@ -9,7 +9,7 @@ If your answer is incorrect or correct the progress area will decrease/increase 
 More functionality will be added later.
 This is just the beginning.
 @author Tyion Lashley
-@version 1.0
+@version 2.0
 */
 
 
@@ -50,6 +50,8 @@ private int textAnswer;
 
 private int progress = 0;
 
+private MediaPlayer player;
+
 	public static void main(String[] args)
 		
 	{
@@ -60,7 +62,7 @@ private int progress = 0;
 
 
 /**
-	This is Overriding start method in program.
+	This method  Overrides start method in program.
 	@param stage - used for setting, and showing scene
 	*/
 	
@@ -70,7 +72,23 @@ private int progress = 0;
 	public void start(Stage stage)
 		
 		{
+			
+// Handling music playback on separate thread
+
+new Thread(() ->
 	
+	{
+		
+		Media backgroundTrack = new Media(Mathefy.class.getResource("MathefyBackgroundTrack.mp3").toString());
+		
+		player = new MediaPlayer(backgroundTrack);
+		
+		player.setCycleCount(MediaPlayer.INDEFINITE);
+		
+		player.play();
+		
+	}).start();
+		
 	// Creating welcome screen
 			
 			Label lab = new Label("Welcome to mathefy.\n Mathefy is an app created by Tyion Lashley that helps young mathmatitions work on their math skills.\n Click the gGet Started button to begin.\nRemember to have fun.\nNote: the multiply and division buttons won't be able to be acccessed unless progress is above or equal to 80.");
@@ -276,17 +294,29 @@ pane.setBottom(checkAndGetAnswerButtons);
 			stage.setFullScreen(true);
 			
 			stage.show();
-			
-			Media backgroundTrack = new Media(Mathefy.class.getResource("MathefyBackgroundTrack.mp3").toString());
-			
-			MediaPlayer player = new MediaPlayer(backgroundTrack);
-			
-			player.setCycleCount(MediaPlayer.INDEFINITE);
-			
-			player.play();
-			 
+						 
 	}
+
+/**
+	We don't want music playing if the app isn't running,
+	so I'm overriding the stop method to stop music from playing if MediaPlayer object is not  null.
+	*/
 	
+	@Override 
+	
+	public void stop()
+		
+		{
+			
+			if (player != null)
+				
+			{
+				
+				player.stop();
+					
+			}
+			
+		}	
 	
 	/**
 		The method isCorrect checks if the answer to a problem is correct.
