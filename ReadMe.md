@@ -1,6 +1,7 @@
 # Mathefy 
 # Created by Tyion Lashley
 This repository contains the files necessary for the Mathefy app.
+Any copying of the code in this repository without explicit permission from the owner is strickly prohibited.
 
 ## Mathefy.java
 
