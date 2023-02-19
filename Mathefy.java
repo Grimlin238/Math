@@ -16,8 +16,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -41,8 +39,6 @@ public class Mathefy extends Application
 // Field variables
 	
 private ArrayList<String> list = new ArrayList<>();
-
-private Date today = new Date();
  
 	private Label problemLabel;
 	
