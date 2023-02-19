@@ -9,19 +9,19 @@ If your answer is incorrect or correct the progress area will decrease/increase 
 More functionality will be added later.
 This is just the beginning.
 @author Tyion Lashley
-@version 3.0
+@version 4.0
 */
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.stage.Stage; 
+import javafx.stage.Stage;
+import javafx.stage.FileChooser; 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
@@ -106,8 +106,10 @@ new Thread(() ->
 			but.setOnAction(event ->
 				
 				{
+
 	
 					/// This is where the second scene with all the options, textfield, and progress and problem labels will be created
+// and a button to save answers to a file
 					
 					problemLabel = new Label();
 					
@@ -231,49 +233,7 @@ progressLabel.setText("Current progress: " + progress);
 							{
 				
 				list.add(problemLabel.getText() + " = " + answer);
-				
-				new Thread(() ->
-					
-					{
-						
-						SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-						
-						String formatedString = format.format(today);
-						
-						File file = new File("MathefyCorrectAnswers" + formatedString + ".txt");
-						
-						try
-							
-						{
-							
-							FileWriter writer = new FileWriter(file, true);
-							
-							PrintWriter print = new PrintWriter(writer);
-							
-						for (int i = 0; i < list.size(); i++)
-							
-						{
-							
-							print.println(list.get(i) + "\n");
-							
-						}
-						
-						writer.close();
-						
-						print.close();
-						
-					}
-					
-					catch (IOException e)
-						
-					{
-						
-						e.printStackTrace();
-						
-					}
-					
-					}).start();
-					
+									
 playSoundUsing("MathefyDing.mp3");
 
 text.setText("");
@@ -297,7 +257,70 @@ progress -= 5;
 							}
 
 						});
+
+
+Button save = new Button("Save Answer's to File");
+
+save.setOnAction(saveHandler ->
+	
+	{
+		
+		FileChooser chooser = new FileChooser();
+		
+		chooser.setTitle("Save File");
+		
+		chooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		
+		File file = chooser.showSaveDialog(stage);
+			
+		if (file != null)
+			
+		{
+			
+			new Thread(() ->
+				
+				{
+					
+					try 
 						
+					{
+						
+						if (!file.exists())
+							
+						{
+							
+							file.createNewFile();
+												
+						}
+						
+						FileWriter writer = new FileWriter(file);
+						
+						for (int i = 0; i < list.size(); i++)
+							
+						{
+							
+							writer.write(list.get(i) + "\n");
+							
+						}
+						
+						writer.close();
+						
+					}
+					
+					catch(IOException e)
+						
+					{
+						
+						e.printStackTrace();
+						
+					}
+					
+				}).start();
+				
+		}
+		
+	});
+	
 VBox problemBox = new VBox(10, problemLabel, text);
 
 problemBox.setAlignment(Pos.CENTER);
@@ -310,11 +333,11 @@ problemBox.setPadding(new Insets(10));
 					
 					optionBox.setPadding(new Insets(10));
 					
-					HBox checkAndGetAnswerButtons = new HBox(10, checkAnswer);
+					HBox checkAndSaveAnswerButtons = new HBox(10, checkAnswer, save);
 					
-					checkAndGetAnswerButtons.setAlignment(Pos.CENTER);
+					checkAndSaveAnswerButtons.setAlignment(Pos.CENTER);
 					
-					checkAndGetAnswerButtons.setPadding(new Insets(10));
+					checkAndSaveAnswerButtons.setPadding(new Insets(10));
 					
 BorderPane pane = new BorderPane();
 
@@ -322,7 +345,7 @@ pane.setLeft(optionBox);
 
 pane.setCenter(problemBox);
 
-pane.setBottom(checkAndGetAnswerButtons);
+pane.setBottom(checkAndSaveAnswerButtons);
 
 					Scene innerScene = new Scene(pane, 500, 300);
 					
