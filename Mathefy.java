@@ -9,10 +9,16 @@ If your answer is incorrect or correct the progress area will decrease/increase 
 More functionality will be added later.
 This is just the beginning.
 @author Tyion Lashley
-@version 2.0
+@version 3.0
 */
 
-
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage; 
@@ -34,6 +40,10 @@ public class Mathefy extends Application
 
 // Field variables
 	
+private ArrayList<String> list = new ArrayList<>();
+
+private Date today = new Date();
+ 
 	private Label problemLabel;
 	
 	private Label progressLabel = new Label("");
@@ -50,7 +60,9 @@ private int textAnswer;
 
 private int progress = 0;
 
-private MediaPlayer player;
+private Media backgroundTrack = new Media(Mathefy.class.getResource("MathefyBackgroundTrack.mp3").toString());
+
+private MediaPlayer player = new MediaPlayer(backgroundTrack);
 
 	public static void main(String[] args)
 		
@@ -78,10 +90,6 @@ private MediaPlayer player;
 new Thread(() ->
 	
 	{
-		
-		Media backgroundTrack = new Media(Mathefy.class.getResource("MathefyBackgroundTrack.mp3").toString());
-		
-		player = new MediaPlayer(backgroundTrack);
 		
 		player.setCycleCount(MediaPlayer.INDEFINITE);
 		
@@ -221,8 +229,54 @@ progressLabel.setText("Current progress: " + progress);
 							if (isCorrect())
 								
 							{
-
+				
+				list.add(problemLabel.getText() + " = " + answer);
+				
+				new Thread(() ->
+					
+					{
+						
+						SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+						
+						String formatedString = format.format(today);
+						
+						File file = new File("MathefyCorrectAnswers" + formatedString + ".txt");
+						
+						try
+							
+						{
+							
+							FileWriter writer = new FileWriter(file, true);
+							
+							PrintWriter print = new PrintWriter(writer);
+							
+						for (int i = 0; i < list.size(); i++)
+							
+						{
+							
+							print.println(list.get(i) + "\n");
+							
+						}
+						
+						writer.close();
+						
+						print.close();
+						
+					}
+					
+					catch (IOException e)
+						
+					{
+						
+						e.printStackTrace();
+						
+					}
+					
+					}).start();
+					
 playSoundUsing("MathefyDing.mp3");
+
+text.setText("");
 								
 								progress += 5;
 								
@@ -376,6 +430,8 @@ return true;
 
 /**
 The playSoundUsing method plays a given file passed to its parameters
+it also decreases the volume of the background track when playing
+then sets the volume back to 100 when the track is finished
 @param fileName the actual file being passed
 */
 
@@ -385,10 +441,26 @@ The playSoundUsing method plays a given file passed to its parameters
 			
 			Media media = new Media(Mathefy.class.getResource(fileName).toString());
 			
-			MediaPlayer player = new MediaPlayer(media);
+			MediaPlayer mp = new MediaPlayer(media);
 
-player.play();
-			
+mp.play();
+
+mp.setOnPlaying(() -> 
+	
+	{
+		
+		player.setVolume(0.5);
+		
+	});
+	
+mp.setOnStopped(() ->
+	
+	{
+		
+		player.setVolume(1.0);
+		
+	});
+					
 		}
 		
 }
