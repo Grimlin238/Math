@@ -9,7 +9,7 @@ If your answer is incorrect or correct the progress area will decrease/increase 
 More functionality will be added later.
 This is just the beginning.
 @author Tyion Lashley
-@version 4.0
+@version 4.0.1
 */
 
 import java.io.File;
@@ -60,6 +60,8 @@ private Media backgroundTrack = new Media(Mathefy.class.getResource("MathefyBack
 
 private MediaPlayer player = new MediaPlayer(backgroundTrack);
 
+private boolean isMute;
+
 	public static void main(String[] args)
 		
 	{
@@ -92,6 +94,18 @@ new Thread(() ->
 		player.play();
 		
 	}).start();
+		
+	// This button stopps the background audio track from playing if the user wishes
+	
+	Button playing = new Button("Pause/Play Background Audio");
+	
+	playing.setOnAction(playingHandler ->
+		
+		{
+			
+toggleMute();
+					
+		});
 		
 	// Creating welcome screen
 			
@@ -329,7 +343,7 @@ problemBox.setPadding(new Insets(10));
 					
 					optionBox.setPadding(new Insets(10));
 					
-					HBox checkAndSaveAnswerButtons = new HBox(10, checkAnswer, save);
+					HBox checkAndSaveAnswerButtons = new HBox(10, playing, checkAnswer, save);
 					
 					checkAndSaveAnswerButtons.setAlignment(Pos.CENTER);
 					
@@ -352,7 +366,7 @@ pane.setBottom(checkAndSaveAnswerButtons);
 					stage.setFullScreen(true);
 				});
 				
-			VBox vb = new VBox(10, lab, but);
+			VBox vb = new VBox(10, lab, but, playing);
 			
 			vb.setAlignment(Pos.CENTER);
 			
@@ -386,10 +400,39 @@ pane.setBottom(checkAndSaveAnswerButtons);
 			{
 				
 				player.stop();
-					
 			}
+					
+				}
+							
+/**
+The toggleMute method mutes/unmutes the background track
+*/
 			
-		}	
+			private void toggleMute()
+				
+				{
+					
+					if (isMute)
+						
+					{
+						
+						player.setMute(false);
+						
+						isMute = false;
+						
+					}
+					
+					else
+						
+					{
+						
+						player.setMute(true);
+					
+					isMute = true;
+						
+					}
+					
+				}			
 	
 	/**
 		The method isCorrect checks if the answer to a problem is correct.
