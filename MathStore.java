@@ -1,7 +1,7 @@
 /**
 The MathStore class stores static methods for displaying different problems to the user
 @author Tyion Lashley
-@version 02/12/23
+@version 12/12/22
 */
 import java.util.Random;
 
