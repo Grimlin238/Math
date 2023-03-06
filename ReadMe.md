@@ -19,7 +19,7 @@ This is just the beginning.
 
 ## MathStore.java
 The MathStore class stores static methods for displaying different problems to the user.
-
+It also handles background operations.
 
 ### MathefyStylesheet.css
 
