@@ -4,11 +4,50 @@ The MathStore class stores static methods for displaying different problems to t
 @version 12/12/22
 */
 import java.util.Random;
+import java.util.ArrayList;
 
 public class MathStore
 	
 {
-
+	private static ArrayList<String> list = new ArrayList<>();
+	
+	/**
+		The addToList method adds a given problem,
+		if it's correct, to the ArrayList
+		@param str the paramater (type string)
+		*/
+		
+		public static void addToList(String str)
+			
+	{
+		
+		list.add(str);
+		
+	}
+	
+	/**
+		The printContents method prints the contents of the list
+		We need this for printing the answers to a file
+		@return the contents of the list
+		*/
+		
+		public static String printContents()
+			
+	{
+	String contents = "";
+		
+		for (int i = 0; i < list.size(); i++)
+			
+		{
+			
+			contents += list.get(i) + "\n";
+			
+		}
+		
+		return contents;
+		
+	}
+	
 /**
 	The showAddition method returns an addition problem
 	@param num1 first number being returned

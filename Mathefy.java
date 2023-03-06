@@ -9,13 +9,12 @@ If your answer is incorrect or correct the progress area will decrease/increase 
 More functionality will be added later.
 This is just the beginning.
 @author Tyion Lashley
-@version 4.0.1
+@version 4.0.2
 */
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -38,8 +37,6 @@ public class Mathefy extends Application
 
 // Field variables
 	
-private ArrayList<String> list = new ArrayList<>();
- 
 	private Label problemLabel;
 	
 	private Label progressLabel = new Label("");
@@ -118,7 +115,8 @@ toggleMute();
 				{
 
 	
-					/// This is where the second scene with all the options, textfield, and progress and problem labels will be created
+					// This is where the second scene with all the options, textfield, and progress and problem labels will be created
+					
 // and a button to save answers to a file
 					
 					problemLabel = new Label();
@@ -242,7 +240,7 @@ progressLabel.setText("Current progress: " + progress);
 								
 							{
 				
-				list.add(problemLabel.getText() + " = " + answer);
+				MathStore.addToList(problemLabel.getText() + " = " + answer);
 									
 playSoundUsing("MathefyDing.mp3");
 
@@ -305,13 +303,7 @@ save.setOnAction(saveHandler ->
 						
 						FileWriter writer = new FileWriter(file);
 						
-						for (int i = 0; i < list.size(); i++)
-							
-						{
-							
-							writer.write(list.get(i) + "\n");
-							
-						}
+						writer.write(MathStore.printContents());
 						
 						writer.close();
 						
