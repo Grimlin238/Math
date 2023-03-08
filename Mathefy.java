@@ -9,7 +9,7 @@ If your answer is incorrect or correct the progress area will decrease/increase 
 More functionality will be added later.
 This is just the beginning.
 @author Tyion Lashley
-@version 4.0.2
+@version 5.0
 */
 
 import java.io.File;
@@ -22,6 +22,8 @@ import javafx.stage.FileChooser;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
@@ -33,7 +35,6 @@ import javafx.geometry.Insets;
 public class Mathefy extends Application
 	
 {
-
 
 // Field variables
 	
@@ -121,8 +122,10 @@ toggleMute();
 					
 					problemLabel = new Label();
 					
-					Button addition = new Button("Addition");
+					progressLabel.setText("Click the options button to get levels. You can not access multiplication unless progress is above or equal to 80.");
 					
+					Button addition = new Button("Addition");
+					addition.setAccessibleText("Addition");
 					addition.setOnAction(additionHandler ->
 						
 						{
@@ -144,7 +147,7 @@ progressLabel.setText("Current progress: " + progress);
 						});
 						
 					Button subtraction = new Button("Subtraction");
-					
+					subtraction.setAccessibleText("Subtraction");
 					subtraction.setOnAction(subtractionHandler ->
 						
 						{
@@ -166,7 +169,7 @@ progressLabel.setText("Current progress: " + progress);
 						});
 						
 					Button multiplication = new Button("Multiplication");
-					
+multiplication.setAccessibleText("Multiplication");					
 					multiplication.setOnAction(multiplicationHandler ->
 						
 						{
@@ -199,7 +202,7 @@ progressLabel.setText("Current progress: " + progress);
 						});
 						
 					Button division = new Button("Division");
-					
+division.setAccessibleText("Division");					
 					division.setOnAction(divisionHandler ->
 						
 						{
@@ -229,9 +232,57 @@ progressLabel.setText("Current progress: " + progress);
 						}
 						
 						});
-												
+
+
+// Putting the addition, subtraction, multiplication, and division button into a Menu
+
+	MenuButton button = new MenuButton("Options");
+	button.setAccessibleText("Options");
+	
+	MenuItem i1 = new MenuItem("addition");
+
+i1.setOnAction(i1Handler ->
+	
+	{
+	
+	addition.fire();
+
+});
+
+	MenuItem i2 = new MenuItem("subtraction");
+	
+	i2.setOnAction(i2Handler ->
+		
+		{
+			
+			subtraction.fire();
+			
+		});
+				
+	MenuItem i3 = new MenuItem("multiplication");
+	
+	i3.setOnAction(i3Handler ->
+		
+		{
+			
+			multiplication.fire();
+			
+		});
+		
+	MenuItem i4 = new MenuItem("division");
+	
+	i4.setOnAction(i4Handler ->
+		
+		{
+			
+			division.fire();
+			
+		});
+		
+	button.getItems().addAll(i1, i2, i3, i4);
+	
 											Button checkAnswer = new Button("Check Answer);");
-											
+																				
 					checkAnswer.setOnAction(checkAnswerHandler ->
 						
 						{
@@ -248,7 +299,7 @@ text.setText("");
 								
 								progress += 5;
 								
-								progressLabel.setText("Awesome! Your answer " + answer + ", was correct\n Click get new ( ) problem to generate another problem.\nCurrent progress: " + progress);
+								progressLabel.setText("Awesome! Your answer " + answer + ", was correct\n Click the options button followed by the level you were working on to get a new problem.\nCurrent progress: " + progress);
 								
 							}
 			
@@ -265,7 +316,6 @@ progress -= 5;
 							}
 
 						});
-
 
 Button save = new Button("Save Answer's to File");
 
@@ -303,7 +353,7 @@ save.setOnAction(saveHandler ->
 						
 						FileWriter writer = new FileWriter(file);
 						
-						writer.write(MathStore.printContents());
+						writer.write(MathStore.printContents()); 
 						
 						writer.close();
 						
@@ -329,7 +379,7 @@ problemBox.setAlignment(Pos.CENTER);
 
 problemBox.setPadding(new Insets(10));
 
-					VBox optionBox = new VBox(10, progressLabel, addition, subtraction, multiplication, division);
+					VBox optionBox = new VBox(10, progressLabel, button);
 					
 					optionBox.setAlignment(Pos.CENTER_LEFT);
 					
