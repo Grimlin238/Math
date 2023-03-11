@@ -11,9 +11,18 @@ Upon launch, the app displays a welcome screen.
 Clicking the get started button brings you to a separate screen with options, a text entry area, and a check answer button.
 Sounds play if the anser is correct or not.
 Note: You can not move on to multiplication or division unless progress is above or equal to 80.
-If your answer is incorrect or correct the progress area will decrease/increase by 5.
+If your answer is incorrect or correct the progress area will decrease/increase by 10.
 Users also have the ability to save all the answers they got correct to a file.
 Clicking the save utton opens a dialog where users can choose the folder they'd like the file to be stored.
+Keyboard commands allow easy navigation between math levels.
+Control a goes to addition
+control s goes to subtraction
+control d goes to division
+control m goes to multiplication
+control c checks if the answer is correct
+control f brings up the save file dialog
+control p mutes/unmutes the audio
+
 More functionality will be added later.
 This is just the beginning.
 
