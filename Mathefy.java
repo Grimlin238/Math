@@ -9,7 +9,7 @@ If your answer is incorrect or correct the progress area will decrease/increase 
 More functionality will be added later.
 This is just the beginning.
 @author Tyion Lashley
-@version 5.0
+@version 6.0
 */
 
 import java.io.File;
@@ -31,6 +31,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane; 
 import javafx.geometry.Insets;
+import javafx.scene.input.KeyCode;
 
 public class Mathefy extends Application
 	
@@ -59,6 +60,23 @@ private Media backgroundTrack = new Media(Mathefy.class.getResource("MathefyBack
 private MediaPlayer player = new MediaPlayer(backgroundTrack);
 
 private boolean isMute;
+
+
+// The following objects are declared globally for easy access
+
+private Button addition;
+
+private Button subtraction;
+
+private Button multiplication;
+
+private Button division;
+
+private Button checkAnswer;
+
+private Button save;
+
+private Scene innerScene;
 
 	public static void main(String[] args)
 		
@@ -122,9 +140,9 @@ toggleMute();
 					
 					problemLabel = new Label();
 					
-					progressLabel.setText("Click the options button to get levels. You can not access multiplication unless progress is above or equal to 80.");
+					progressLabel.setText("Click the options button to get levels. You can not access multiplication or division unless progress is above or equal to 80.");
 					
-					Button addition = new Button("Addition");
+					addition = new Button("Addition");
 					addition.setAccessibleText("Addition");
 					addition.setOnAction(additionHandler ->
 						
@@ -146,7 +164,7 @@ progressLabel.setText("Current progress: " + progress);
 
 						});
 						
-					Button subtraction = new Button("Subtraction");
+					subtraction = new Button("Subtraction");
 					subtraction.setAccessibleText("Subtraction");
 					subtraction.setOnAction(subtractionHandler ->
 						
@@ -168,7 +186,7 @@ progressLabel.setText("Current progress: " + progress);
 						
 						});
 						
-					Button multiplication = new Button("Multiplication");
+					multiplication = new Button("Multiplication");
 multiplication.setAccessibleText("Multiplication");					
 					multiplication.setOnAction(multiplicationHandler ->
 						
@@ -201,7 +219,7 @@ progressLabel.setText("Current progress: " + progress);
 						
 						});
 						
-					Button division = new Button("Division");
+					division = new Button("Division");
 division.setAccessibleText("Division");					
 					division.setOnAction(divisionHandler ->
 						
@@ -234,7 +252,7 @@ progressLabel.setText("Current progress: " + progress);
 						});
 
 
-// Putting the addition, subtraction, multiplication, and division button into a Menu
+// Putting the addition, subtraction, multiplication, and division buttons into a Menu
 
 	MenuButton button = new MenuButton("Options");
 	button.setAccessibleText("Options");
@@ -281,7 +299,7 @@ i1.setOnAction(i1Handler ->
 		
 	button.getItems().addAll(i1, i2, i3, i4);
 	
-											Button checkAnswer = new Button("Check Answer);");
+											checkAnswer = new Button("Check Answer);");
 																				
 					checkAnswer.setOnAction(checkAnswerHandler ->
 						
@@ -297,7 +315,7 @@ playSoundUsing("MathefyDing.mp3");
 
 text.setText("");
 								
-								progress += 5;
+								progress += 10;
 								
 								progressLabel.setText("Awesome! Your answer " + answer + ", was correct\n Click the options button followed by the level you were working on to get a new problem.\nCurrent progress: " + progress);
 								
@@ -309,7 +327,7 @@ text.setText("");
 
 playSoundUsing("MathefyBuzz.mp3");
 
-progress -= 5;
+progress -= 10;
 
 								progressLabel.setText("Incorrect answer.\nCurrent progress:" + progress);
 									
@@ -317,7 +335,7 @@ progress -= 5;
 
 						});
 
-Button save = new Button("Save Answer's to File");
+save = new Button("Save Answer's to File");
 
 save.setOnAction(saveHandler ->
 	
@@ -399,7 +417,9 @@ pane.setCenter(problemBox);
 
 pane.setBottom(checkAndSaveAnswerButtons);
 
-					Scene innerScene = new Scene(pane, 500, 300);
+					innerScene = new Scene(pane, 500, 300);
+					
+					handleKeyboardCommands(innerScene);
 					
 					innerScene.getStylesheets().add("MathefyStylesheet.css");
 					
@@ -446,6 +466,81 @@ pane.setBottom(checkAndSaveAnswerButtons);
 					
 				}
 							
+							
+				/**
+					The handleKeyboardCommands method hanldes events for commands
+					@param scene - the scene in which the commands will be handled for
+					*/
+					
+					private void handleKeyboardCommands(Scene scene)
+						
+				{
+					
+					scene.setOnKeyReleased(event ->
+						
+						{
+							
+							if (event.isControlDown() && event.getCode() == KeyCode.C)
+								
+							{
+								
+								checkAnswer.fire();
+								
+							}
+							
+							if (event.isControlDown() && event.getCode() == KeyCode.A)
+								
+							{
+								
+								addition.fire();
+								
+							}
+							
+							if (event.isControlDown() && event.getCode() == KeyCode.S)
+								
+							{
+								
+								subtraction.fire();
+								
+							}
+							
+							if (event.isControlDown() && event.getCode() == KeyCode.D)
+								
+							{
+								
+								division.fire();
+								
+								
+							}
+							
+							if (event.isControlDown() && event.getCode() == KeyCode.F)
+								
+							{
+								
+								save.fire();
+								
+							}
+							
+							if (event.isControlDown() && event.getCode() == KeyCode.M)
+								
+							{
+								
+								multiplication.fire();
+								
+							}
+								
+		if (event.isControlDown() && event.getCode() == KeyCode.P)
+			
+		{
+			
+			toggleMute();
+			
+		}
+		
+						});
+						
+				}
+				
 /**
 The toggleMute method mutes/unmutes the background track
 */
