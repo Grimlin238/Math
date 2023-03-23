@@ -1,5 +1,5 @@
 # Mathefy 
-# Created by Tyian Lashley
+# Created by Tyion Lashley
 This repository contains the files necessary for the Mathefy app.
 Any copying of the code in this repo is strickly prohibited.
 

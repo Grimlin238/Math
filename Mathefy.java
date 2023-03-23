@@ -47,7 +47,7 @@ private int textAnswer;
 
 private int progress = 0;
 
-private Media backgroundTrack = new Media(Mathefy.class.getResource("MathefyBackgroundTrack.mp3").toString());
+private Media backgroundTrack = new Media(Mathefy.class.getResource("/SoundTracks/MathefyBackgroundTrack.mp3").toString());
 
 private MediaPlayer player = new MediaPlayer(backgroundTrack);
 
@@ -303,7 +303,7 @@ i1.setOnAction(i1Handler ->
 				
 				MathStore.addToList(problemLabel.getText() + " = " + answer);
 									
-playSoundUsing("MathefyDing.mp3");
+playSoundUsing("/SoundTracks/MathefyDing.mp3");
 
 text.setText("");
 								
@@ -317,7 +317,7 @@ text.setText("");
 								
 							{
 
-playSoundUsing("MathefyBuzz.mp3");
+playSoundUsing("/SoundTracks/MathefyBuzz.mp3");
 
 progress -= 10;
 
